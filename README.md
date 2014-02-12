@@ -127,7 +127,7 @@ BOOTSTRAP
 
 Execute the following bash command line:
 
-    git clone http://jonseymour.net/jsh-runtime ~/.jsh && cd ~/.jsh && git submodule update --init
+    git clone https://github.com/jonseymour/jsh-runtime.git ~/.jsh && cd ~/.jsh && git submodule update --init --recursive
 
 Add a line like the following to ~/.bashrc:
 
