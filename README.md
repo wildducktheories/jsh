@@ -121,3 +121,33 @@ TERMINOLOGY
 CONVENTIONS
 ===========
 * packages can reserve part of the global environent for themselves using a prefix.
+
+BOOTSTRAP
+=========
+
+Execute the following bash command line:
+
+    git clone http://jonseymour.net/jsh-runtime ~/.jsh && cd ~/.jsh && git submodule update --init
+
+Add a line like the following to ~/.bashrc:
+
+    export PATH=~/.jsh/bin:$PATH
+
+Start a new bash shell. If everything is working, you should be able to create a new module called foobar in the scratch package with:
+
+    jsh module edit scratch foobar
+
+To invoke the module, run:
+
+    scratch foobar 
+
+REVISIONS
+=========
+13 Feb 2014
+
+* Add GPLv3 license.
+* Add initial runtime support.
+
+10 Feb 2014
+
+* Initial version
