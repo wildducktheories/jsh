@@ -83,7 +83,7 @@ MODULE
 A jsh module, {m}, is a function called \_{m}. The source for a module is either nested within the source of a parent module or within .j file within some package. The body of module
 may declare other modules or functions. Modules that declare other modules in their body usually pass their arguments to jsh invoke in order to allow for recursive dispatch.
 
-All packages MUST have at least one module, called the top-level module, which has the same name as the package. Th source for this module MUST be located in a consistently named module file 
+All packages MUST have at least one module, called the top-level module, which has the same name as the package. The source for this module MUST be located in a consistently named module file 
 in the top directory of the package. The top-level module is special because it is the first module in a package that is invoked by the command that represents the package.
 
 DOCUMENTATION
