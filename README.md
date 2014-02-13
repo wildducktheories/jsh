@@ -96,11 +96,8 @@ TERMINOLOGY
 * resolved-packages-directory
 	A directory containing links to packages. Ambiguous package selections have been resolved.
 
-* repository-library
-	A directory containing an ordered list of repositories.
-
-* repository
-	A directory containing zero or more packages. A repository might be implemented as a git super project with one directory (and git submodule) for each package.
+* distribution
+	A directory containing zero or more packages. 
 
 * package
 	A directory within a repository containing one or more modules. If the package is called {p} then there MUST be top-level module called {p}.
@@ -128,20 +125,66 @@ CONVENTIONS
 BOOTSTRAP
 =========
 
-Execute the following bash command line:
+The following commands will install the jsh runtime tree into ~/.jsh and then create links 
+for the 'jsh' and 'scratch' packages in ~/bin. 
 
     git clone https://github.com/jonseymour/jsh-runtime.git ~/.jsh && 
     cd ~/.jsh && 
     git submodule update --init --recursive &&
-    mnt/jsh/resolved-packages/jsh/bin/j.sh jsh runtime init /usr/local/bin
+    mnt/jsh/resolved-packages/jsh/bin/j.sh jsh runtime init ~/bin
 
-If everything is working, you should be able to create a new module called foobar in the scratch package with:
+If ~/bin is in your PATH, then:
+
+    jsh runtime top
+
+should display the location that you cloned the jsh runtime tree into.
+
+The following will create a new 'foobar' module in the 'scratch' package.
 
     jsh module edit scratch foobar
 
 To invoke the module, run:
 
     scratch foobar 
+
+SUPPORTED COMMANDS
+==================
+The following is a list of commands that jsh supports out of the box. The list will be extended over time to provide more comprehensive management of packages.
+
+jsh runtime top
+---------------
+Output the top of the jsh runtime directory.
+
+jsh runtime get bin
+-------------------
+Output the location of the runtime bin directory.
+
+jsh runtime set bin {bindir}
+-------------------------
+Link the runtime bin directory to the specified directory. {bindir} should be a directory, such as /usr/local/bin, which is in the PATH.
+
+If {bindir} is the same as 'jsh runtime top', then links are created in the {bindir} directory itself, rather than in some other directory. In this case, the caller should ensure 
+that {bindir} is placed in the PATH.
+
+jsh runtime link bin
+--------------------
+Create a link from the runtime bin directory to mnt/jsh/resolved-packages/jsh/bin/j.sh for each package in mnt/jsh/resolved-packages.
+
+jsh runtime init {bindir}
+-------------------------
+Invokes 'jsh runtime set bin {binddir}' and 'jsh runtime link bin'. 
+
+jsh module filename {package} {module...}
+-----------------------------------------
+Outputs the name of the module file that contains the implementation of the specified module.
+
+jsh module edit {package} {module...}
+-------------------------------------
+Invokes the program referred to by $EDITOR on the module file that implements the specified module.
+
+jsh module create {package} {module...}
+-------------------------------------
+Create a new module file for the specified module path, then invokes the $EDITOR on that module.
 
 REVISIONS
 =========
