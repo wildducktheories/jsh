@@ -40,8 +40,8 @@ The jsh runtime tree has the following structure:
 * etc/{package} - a directory (or link to a directory) for the local configuration associated with {package}
 * mnt/{package} - a link to the actual location of the local object storage associated with {package}. usually defaults to ../var/{package}
 * var/{package} - the default location of local object storage associated with {package}
-* mnt/jsh/repo/{nnnn}-{repo}/{package} - package storage for the contents of a package found in one repo
-* mnt/jsh/resolved-packages/{package} - contains a link to an actual package implementation in mnt/jsh/repo/{nnnn}-{repo}/{package}
+* mnt/jsh/dist/{nnnn}-{dist}/{package} - package storage for the contents of a package found in one distribution
+* mnt/jsh/resolved-packages/{package} - contains a link to an actual package implementation in mnt/jsh/dist/{nnnn}-{dist}/{package}
 * mnt/jsh/resolved-packages/{package}/{package}.j - a bash source file containing a function called _{package} containing the top-level module of the package
 * mnt/jsh/resolved-packages/{package}/{module}.j - a bash source file containing a function called _{module} containing another module in a package
 * mnt/jsh/resolved-packages/{package}/{subpackage}/{subpackage}.j - a bash source file containing a function called _{subpackage} containing the top-level module of a sub-package
@@ -49,12 +49,15 @@ The jsh runtime tree has the following structure:
 * mnt/jsh/resolved-packages/{package}/doc/html/{module}.html - the (generated) HTML markup for a module document
 * mnt/jsh/doc/html/{package} - a link to the generated HTML documentation for a package
 
-REPOSITORY
+DISTRIBUTION
 ==========
-A repository is a collection of packages. A repository is typically implemented as a git superproject with each package being implemented a git submodule. git facilities are used to manage 
-the freshness of packages with respect to an upstream repository.
+A distribution is a collection of packages.
 
-A runtime tree will typically contain several repositories some of which may contain packages with identical names. In this case, the package implementation that occurs in the repo whose name is first in the lexical order of all repositories found in mnt/jsh/repo is the one that wins.
+A runtime tree will typically contain several distributions some of which may contain packages with identical names. In this case, the package implementation that occurs in the distribution whose name is first in the lexical order of all distributions found in mnt/jsh/dist is the one that wins.
+
+Distributions are managed by a manager who is responsible for determining the composition and versions of each package in the distrbution.
+
+A distribution is typically implemented as a git superproject with each package being implemented a git submodule. git facilities are used to manage the freshness of packages with respect to an upstream repository.
 
 PACKAGE
 =======
@@ -65,7 +68,7 @@ A jsh package, {p}, is directory consisting of:
 * one or more sub-package directories, {s}, containing the the package's sub-packages
 * other package-specific files located in package storage
 
-Packages are grouped into repositories. Packages can either be managed or unmanaged. Managed packages are managed using git. Unmanaged packages are not managed with git.
+Packages are grouped into distributions. Distrbutions and packages can either be managed or unmanaged. Managed distrbutions and packages are managed using git. Unmanaged packages and distributions are not managed with git.
 
 Packages may exist in one of 4 states:
 
@@ -127,7 +130,9 @@ BOOTSTRAP
 
 Execute the following bash command line:
 
-    git clone https://github.com/jonseymour/jsh-runtime.git ~/.jsh && cd ~/.jsh && git submodule update --init --recursive
+    git clone https://github.com/jonseymour/jsh-runtime.git ~/.jsh && 
+    cd ~/.jsh && 
+    git submodule update --init --recursive
 
 Add a line like the following to ~/.bashrc:
 
@@ -147,6 +152,7 @@ REVISIONS
 
 * Add GPLv3 license.
 * Add initial runtime support.
+* Renamed 'repository' to 'distribution' to better reflect intent.
 
 10 Feb 2014
 
