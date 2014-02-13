@@ -45,7 +45,7 @@ _jsh()
 	jsh()
 	{
 		case "$1" in
-		     invoke)
+		     invoke|die)
 			_jsh "$@"
 		     ;;
 		     *)
