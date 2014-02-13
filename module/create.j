@@ -22,7 +22,16 @@ _create()
 		cat > "$file" <<EOF
 _$module()
 {
-	jsh invoke "\$@"
+
+#
+#	implement your module here...
+#	
+	:
+
+#
+#       if you define nested modules within this module, then uncomment the following line
+#	jsh invoke "\$@"
+
 }
 EOF
 		jsh module edit $args
