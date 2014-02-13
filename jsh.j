@@ -44,7 +44,14 @@ _jsh()
 
 	jsh()
 	{
-		_jsh "$@"
+		case "$1" in
+		     invoke)
+			_jsh "$@"
+		     ;;
+		     *)
+			$(which jsh) "$@"
+		     ;;
+		esac
 	}
 
 	if test "$JSH_PACKAGE $1 $2" = "jsh invoke jsh"
