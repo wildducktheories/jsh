@@ -4,11 +4,11 @@ _runtime()
         {
                 _bin()
                 {
-                        local bin=$(jsh runtime get bin)
+                        local bin=$(_runtime get bin)
                         test -n "$bin" || jsh die "cannot link until the bin directory has been set. use 'jsh runtime set bin'"
                         test -d "$bin" || jsh die "'$bin' must refer to a directory."
                         local rc=0
-                        for p in $(jsh runtime list resolved-packages)
+                        for p in $(_runtime list resolved-packages)
                         do
                                 if ! (! test -e $bin/$p || test -L $bin/$p && ln -sf ${JSH_RUNTIME}/mnt/jsh/resolved-packages/jsh/bin/j.sh $bin/$p)
                                 then
