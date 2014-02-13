@@ -20,11 +20,11 @@ be subdivided into modules each of which is addressed by adding a command argume
 
 So, for example, to invoke a command that reports the location of the current jsh runtime tree, a user might type:
 
-    jsh current runtime
+    jsh runtime top
 
-'jsh' is a command that addresses a package called 'jsh'; 'current' is a command that addresses a module, called 'current' inside the 'jsh' package; 'runtime' is a command that addresses a sub-module called 'runtime'.
+'jsh' is a command that addresses a package called 'jsh'; 'runtime' is a command that addresses a module, called 'runtime' inside the 'jsh' package; 'top' is a command that addresses a sub-module called 'top'.
 
-The jsh runtime will resolve each command in turn, ultimately loading and executing a function called '\_runtime' nested within a function called '\_current' found in a module file called 'current.j' found in a package directory called 'jsh'.
+The jsh runtime will resolve each command in turn, ultimately loading and executing a function called '\_top' nested within a function called '\_runtime' found in a module file called 'runtime.j' found in a package directory called 'jsh'.
 
 RUNTIME TREE
 ============
