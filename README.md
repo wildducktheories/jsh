@@ -132,13 +132,10 @@ Execute the following bash command line:
 
     git clone https://github.com/jonseymour/jsh-runtime.git ~/.jsh && 
     cd ~/.jsh && 
-    git submodule update --init --recursive
+    git submodule update --init --recursive &&
+    mnt/jsh/resolved-packages/jsh/bin/j.sh jsh runtime init /usr/local/bin
 
-Add a line like the following to ~/.bashrc:
-
-    export PATH=~/.jsh/bin:$PATH
-
-Start a new bash shell. If everything is working, you should be able to create a new module called foobar in the scratch package with:
+If everything is working, you should be able to create a new module called foobar in the scratch package with:
 
     jsh module edit scratch foobar
 
@@ -153,6 +150,7 @@ REVISIONS
 * Add GPLv3 license.
 * Add initial runtime support.
 * Renamed 'repository' to 'distribution' to better reflect intent.
+* Enable linking of package commands to existing bin directory
 
 10 Feb 2014
 
