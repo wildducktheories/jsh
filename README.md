@@ -128,6 +128,7 @@ BOOTSTRAP
 The following commands will install the jsh runtime tree into ~/.jsh and then create links 
 for the 'jsh' and 'scratch' packages in ~/bin. 
 
+    mkdir -p ~/bin &&
     git clone https://github.com/wildducktheories/jsh-runtime.git ~/.jsh && 
     cd ~/.jsh && 
     git submodule update --init --recursive &&
