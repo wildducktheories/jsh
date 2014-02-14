@@ -11,32 +11,32 @@ die()
 }
 if test -L "${BASH_SOURCE}"
 then
-    JSH_RUNTIME=$(ls -ld "${BASH_SOURCE}"); 
-    JSH_RUNTIME=${JSH_RUNTIME#*-> }; 
-    JSH_RUNTIME=${JSH_RUNTIME%/mnt/jsh/resolved-packages/jsh/bin/j.sh}; 
-    export JSH_PACKAGE=$(basename "$BASH_SOURCE")
+    _jsh_runtime=$(ls -ld "${BASH_SOURCE}"); 
+    _jsh_runtime=${_jsh_runtime#*-> }; 
+    _jsh_runtime=${_jsh_runtime%/mnt/jsh/resolved-packages/jsh/bin/j.sh}; 
+    export _jsh_package=$(basename "$BASH_SOURCE")
 else
-    JSH_RUNTIME=$(cd "$(dirname "${BASH_SOURCE}")"; pwd); 
-    JSH_RUNTIME=${JSH_RUNTIME%/mnt/jsh/resolved-packages/jsh/bin}; 
-    export JSH_PACKAGE=$1
-    test -n "$JSH_PACKAGE" || die "usage: j.sh {package} {module...} {arg...}"
+    _jsh_runtime=$(cd "$(dirname "${BASH_SOURCE}")"; pwd); 
+    _jsh_runtime=${_jsh_runtime%/mnt/jsh/resolved-packages/jsh/bin}; 
+    export _jsh_package=$1
+    test -n "$_jsh_package" || die "usage: j.sh {package} {module...} {arg...}"
     shift 1
 fi
-export JSH_RUNTIME
-export JSH_RESOLVED_PACKAGES=${JSH_RUNTIME}/mnt/jsh/resolved-packages
-export JSH_JSH_PACKAGE_DIR=${JSH_RESOLVED_PACKAGES}/jsh
-export JSH_JSH_MODULE_FILE=${JSH_JSH_PACKAGE_DIR}/jsh.j
-export JSH_MODULE_STACK=
-test -f "${JSH_JSH_MODULE_FILE}" &&
-. "$JSH_JSH_MODULE_FILE" || {
+export _jsh_runtime
+export _jsh_resolved_packages=${_jsh_runtime}/mnt/jsh/resolved-packages
+export _jsh_jsh_package_dir=${_jsh_resolved_packages}/jsh
+export _jsh_jsh_module_file=${_jsh_jsh_package_dir}/jsh.j
+export _jsh_module_stack=
+test -f "${_jsh_jsh_module_file}" &&
+. "$_jsh_jsh_module_file" || {
    cat >&2 <<EOF
 BASH_SOURCE=${BASH_SOURCE}
-JSH_PACKAGE=${JSH_PACKAGE}
-JSH_RUNTIME=${JSH_RUNTIME}
-JSH_RESOLVED_PACKAGES=${JSH_RESOLVED_PACKAGES}
-JSH_JSH_PACKAGE_DIR=${JSH_JSH_PACKAGE_DIR}
-JSH_JSH_MODULE_FILE=${JSH_JSH_MODULE_FILE}
+_jsh_package=${_jsh_package}
+_jsh_runtime=${_jsh_runtime}
+_jsh_resolved_packages=${_jsh_resolved_packages}
+_jsh_jsh_package_dir=${_jsh_jsh_package_dir}
+_jsh_jsh_module_file=${_jsh_jsh_module_file}
 EOF
    die "Unable to locate jsh runtime. Please check that '${BASH_SOURCE}' can see '../mnt/jsh/resolved-packages/jsh/bin/j.sh'"
 }
-_jsh invoke "${JSH_PACKAGE}" "$@" 
+_jsh invoke "${_jsh_package}" "$@" 

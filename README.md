@@ -200,8 +200,23 @@ jsh debug {message-arg}...
 If JSH_DEBUG is non empty, output the remaining arguments to stderr.
 
 ENVIRONMENT
+===========
+All environment variables prefixed with JSH_ are reserved for use by modules in the jsh package and form part of the public interface of the jsh package.
+
+All environment variables prefixed with _jsh are reserved for use by the implementation of jsh package and are not part of the public interface. Any use of these variables by
+modules outside the jsh package is not supported.
+
+JSH_DEBUG
+---------
+If this variable is not empty, the arguments to 'jsh debug' will be logged to stderr
+
 REVISIONS
 =========
+14 Feb 2014
+
+* fix some issues with the module stack
+* add support 'jsh debug'
+
 13 Feb 2014
 
 * Add GPLv3 license.

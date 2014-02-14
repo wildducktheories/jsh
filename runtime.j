@@ -10,7 +10,7 @@ _runtime()
                         local rc=0
                         for p in $(_runtime list resolved-packages)
                         do
-                                if ! (! test -e $bin/$p || test -L $bin/$p && ln -sf ${JSH_RUNTIME}/mnt/jsh/resolved-packages/jsh/bin/j.sh $bin/$p)
+                                if ! (! test -e $bin/$p || test -L $bin/$p && ln -sf ${_jsh_runtime}/mnt/jsh/resolved-packages/jsh/bin/j.sh $bin/$p)
                                 then
                                         echo "failed to link '$bin/$p'" 1>&2
                                         rc=1
@@ -25,7 +25,7 @@ _runtime()
         {
                 _resolved-packages()
                 {
-                        (cd ${JSH_RUNTIME}/var/jsh/resolved-packages; find . -maxdepth 2 -type l) | sed "s|^./||"
+                        (cd ${_jsh_runtime}/var/jsh/resolved-packages; find . -maxdepth 2 -type l) | sed "s|^./||"
                 }
 
                 jsh invoke "$@"
@@ -50,29 +50,29 @@ _runtime()
 
                         test -n "$dir" || jsh die "jsh runtime set bin {dir}"
 
-                        if ( ! test -L "${JSH_RUNTIME}/bin" ) && test -e "${JSH_RUNTIME}/bin" && test "$dir" != "${JSH_RUNTIME}/bin"
+                        if ( ! test -L "${_jsh_runtime}/bin" ) && test -e "${_jsh_runtime}/bin" && test "$dir" != "${_jsh_runtime}/bin"
                         then
-                                jsh die "'${JSH_RUNTIME}/bin' already exists and is not a link"
+                                jsh die "'${_jsh_runtime}/bin' already exists and is not a link"
                         fi
 
-                        if test "$dir" = "${JSH_RUNTIME}/bin"
+                        if test "$dir" = "${_jsh_runtime}/bin"
                         then
-                                test -d "${JSH_RUNTIME}/bin" && ! test -L "${JSH_RUNTIME}/bin" && return 0
-                                if test -L "${JSH_RUNTIME}/bin"
+                                test -d "${_jsh_runtime}/bin" && ! test -L "${_jsh_runtime}/bin" && return 0
+                                if test -L "${_jsh_runtime}/bin"
                                 then
-                                        rm "${JSH_RUNTIME}/bin" || jsh die "failed to remove existing link"
-                                elif test -e "${JSH_RUNTIME}/bin"
+                                        rm "${_jsh_runtime}/bin" || jsh die "failed to remove existing link"
+                                elif test -e "${_jsh_runtime}/bin"
                                 then
-                                        jsh die "'${JSH_RUNTIME}/bin' exists and is not a directory."
+                                        jsh die "'${_jsh_runtime}/bin' exists and is not a directory."
                                 fi
-                                mkdir "${JSH_RUNTIME}/bin" || jsh die "failed to create ${JSH_RUNTIME}/bin"
-                        elif test -L "${JSH_RUNTIME}/bin" || ! test -e "${JSH_RUNTIME}/bin"
+                                mkdir "${_jsh_runtime}/bin" || jsh die "failed to create ${_jsh_runtime}/bin"
+                        elif test -L "${_jsh_runtime}/bin" || ! test -e "${_jsh_runtime}/bin"
                         then
                                 test -d "$dir" || jsh die "'$dir' is not a valid directory"
-                                test -L "${JSH_RUNTIME}/bin" && ( rm "${JSH_RUNTIME}/bin" || jsh die "failed to remove existing link '${JSH_RUNTIME}/bin'" )
-                                ln -sf "$dir" "${JSH_RUNTIME}/bin" || jsh die "failed to create link"
+                                test -L "${_jsh_runtime}/bin" && ( rm "${_jsh_runtime}/bin" || jsh die "failed to remove existing link '${_jsh_runtime}/bin'" )
+                                ln -sf "$dir" "${_jsh_runtime}/bin" || jsh die "failed to create link"
                         else
-                                jsh die "'${JSH_RUNTIME}/bin' already exists and is not a directory or a link."
+                                jsh die "'${_jsh_runtime}/bin' already exists and is not a directory or a link."
                         fi
                 }
                 jsh invoke "$@"
@@ -82,12 +82,12 @@ _runtime()
         {
                 _bin()
                 {
-                        if test -L "${JSH_RUNTIME}/bin"
+                        if test -L "${_jsh_runtime}/bin"
                         then
-                                ls -ld ${JSH_RUNTIME}/bin | sed "s/.*-> //"
-                        elif test -d "${JSH_RUNTIME}/bin"
+                                ls -ld ${_jsh_runtime}/bin | sed "s/.*-> //"
+                        elif test -d "${_jsh_runtime}/bin"
                         then
-                                echo "${JSH_RUNTIME}/bin"
+                                echo "${_jsh_runtime}/bin"
                         else
                                 return 1
                         fi
@@ -97,7 +97,7 @@ _runtime()
 
         _top()
         {
-                test -n "${JSH_RUNTIME}" && echo "${JSH_RUNTIME}"
+                test -n "${_jsh_runtime}" && echo "${_jsh_runtime}"
         }
 
         jsh invoke "$@"

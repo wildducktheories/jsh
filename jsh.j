@@ -16,24 +16,24 @@ _jsh()
 
 	_invoke()
 	{
-		_debug "_invoke|$*|${JSH_MODULE_STACK}"
+		_debug "_invoke|$*|${_jsh_module_stack}"
 
 		module=$1
 		shift 1
 		test -n "${module}" || _die "usage: jsh invoke {module} {module...} {args...}"
 
-		local save=${JSH_MODULE_STACK}
+		local save=${_jsh_module_stack}
 
 		# check for a sub-package
-		local module_file=${JSH_RESOLVED_PACKAGES}/${JSH_MODULE_STACK}/${module}/${module}.j
+		local module_file=${_jsh_resolved_packages}/${_jsh_module_stack}/${module}/${module}.j
 		if ! test -f "$module_file"
 		then
 			# assume a sub-module instead
-			module_file=${JSH_RESOLVED_PACKAGES}/${JSH_MODULE_STACK}/${module}.j
+			module_file=${_jsh_resolved_packages}/${_jsh_module_stack}/${module}.j
 		fi
 
 		# push the sub-package onto the module stack
-		JSH_MODULE_STACK=${JSH_MODULE_STACK}${JSH_MODULE_STACK:+/}${module}
+		_jsh_module_stack=${_jsh_module_stack}${_jsh_module_stack:+/}${module}
 
 		# check that the file exists
 		if test -f "$module_file" 
@@ -43,12 +43,12 @@ _jsh()
 		fi
 
 		# assert that the module function exists
-		test "$(type -t "_${module}")" = "function" || _die "'$JSH_MODULE_STACK' does not correspond to an active jsh module"
+		test "$(type -t "_${module}")" = "function" || _die "'$_jsh_module_stack' does not correspond to an active jsh module"
 
 		# call the module
 		_${module} "$@"
 
-		JSH_MODULE_STACK=${save}
+		_jsh_module_stack=${save}
 	}		
 
 	jsh()

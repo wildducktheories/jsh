@@ -2,12 +2,12 @@ _module()
 {
 	_filename()
 	{
-		local path=${JSH_RESOLVED_PACKAGES}
+		local path=${_jsh_resolved_packages}
 		local file
 
 		# check that first argument is an active package
 
-		test -d "$path" || jsh die "illegal state: '${JSH_RESOLVED_PACKAGES}' does not exist"
+		test -d "$path" || jsh die "illegal state: '${_jsh_resolved_packages}' does not exist"
 		local package=$1
 		local module=${package}
 		test -n "$package" || jsh die "usage: jsh module filename {package} [ {module} ... ]"
