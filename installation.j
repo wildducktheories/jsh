@@ -105,5 +105,21 @@ _installation()
                 test -n "${_jsh_installation}" && echo "${_jsh_installation}"
         }
 
+	_usage()
+	{
+cat <<EOF
+jsh installation cmd args..
+
+where cmd args... is one of:
+    get bin
+    init {bindir}
+    link bin
+    list resolved-packages
+    set bin {bindir}
+    resolved-packages
+    top
+EOF
+	}
+
         jsh invoke "$@"
 }
