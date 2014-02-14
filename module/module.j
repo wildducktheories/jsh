@@ -41,5 +41,18 @@ _module()
 		test -f "$file" && grep "_$module *()" "$file" >/dev/null && echo "$file"
 	}
 
+	_usage()
+	{
+cat <<EOF
+jsh module {module} {args}...
+
+where {module} {args}... is one of:
+      create {package} {module}...
+      edit {package} {module}...
+      filename {package} {module}...
+      
+EOF
+	}
+
 	jsh invoke "$@"
 }

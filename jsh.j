@@ -102,6 +102,8 @@ _jsh()
 		shift 1
 		_with "$@"
 	else
-		_invoke "$@"
+		local arg=${1:-usage}
+		shift 1
+		_invoke "$arg" "$@"
 	fi
 }
