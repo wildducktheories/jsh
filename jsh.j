@@ -61,17 +61,27 @@ _jsh()
 		_jsh_module_stack=${save}
 	}		
 
+	_with()
+	{
+		(
+			_jsh_save_module_stack=$_jsh_module_stack
+			_jsh_module_stack=
+			_jsh_double_dash_handler="jsh end-with"
+			jsh invoke "$@"
+		) || exit $?
+	}
+
 	_end-with()
 	{
 		_jsh_module_stack=${_jsh_save_module_stack}
 		_jsh_double_dash_handler=
-		"$@"
+		_invoke "$@"
 	}
 
 	jsh()
 	{
 		case "$1" in
-		     invoke|die|debug)
+		     invoke|die|debug|with)
 			_jsh "$@"
 		     ;;
 		     *)
@@ -80,13 +90,17 @@ _jsh()
 		esac
 	}
 
-	if test "$1" = "invoke"
+	if test "$1" = "invoke" 
 	then
 		# we are here, just do it
 		shift 1
 		local arg=${1:-usage}
 		shift 1
 		_invoke "$arg" "$@"
+	elif test "$1" = "with"
+	then
+		shift 1
+		_with "$@"
 	else
 		_invoke "$@"
 	fi
