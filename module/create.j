@@ -12,10 +12,10 @@ _create()
 	done
 
 	local module=$1
-	local file=${JSH_RESOLVED_PACKAGES}/$path/${module}.j
+	local file=${_jsh_resolved_packages}/$path/${module}.j
 
 	test -n "$(jsh module filename $package 2>/dev/null)" || die "'$package' is not a valid package"
-	mkdir -p "${JSH_RESOLVED_PACKAGES}/$path"
+	mkdir -p "${_jsh_resolved_packages}/$path"
 
 	if ! test -f "$file"
 	then
