@@ -187,10 +187,19 @@ jsh module create {package} {module}...
 ---------------------------------------
 Create a new module file for the specified module path, then invokes the $EDITOR on that module.
 
-jsh debug {message arg}...
+jsh die {message-arg}...
+------------------------
+Output the remaining arguments to stderr, then exit the current shell with a non-zero status code.
+
+jsh invoke {module}... {arg}...
+-------------------------------
+Invoke the specified submodule of the current package/submodule.
+
+jsh debug {message-arg}...
 --------------------------
 If JSH_DEBUG is non empty, output the remaining arguments to stderr.
 
+ENVIRONMENT
 REVISIONS
 =========
 13 Feb 2014
