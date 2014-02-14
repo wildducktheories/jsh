@@ -6,8 +6,18 @@ _jsh()
 		exit 1
 	}
 
+	_debug()
+	{
+		if test -n "$JSH_DEBUG"
+		then
+			echo "$*" >&2
+		fi
+	}
+
 	_invoke()
 	{
+		_debug "_invoke|$*|${JSH_MODULE_STACK}"
+
 		module=$1
 		shift 1
 		test -n "${module}" || _die "usage: jsh invoke {module} {module...} {args...}"
@@ -45,7 +55,7 @@ _jsh()
 	jsh()
 	{
 		case "$1" in
-		     invoke|die)
+		     invoke|die|debug)
 			_jsh "$@"
 		     ;;
 		     *)
