@@ -199,6 +199,11 @@ jsh debug {message-arg}...
 --------------------------
 If JSH_DEBUG is non empty, output the remaining arguments to stderr.
 
+META MODULE
+===========
+Every package (and module) can define a submodule, called meta which can answer questions asked of the module by the jsh runtime. 
+This section will document the expected behaviour of each submodule of a module's meta module.
+
 ENVIRONMENT
 ===========
 All environment variables prefixed with JSH_ are reserved for use by modules in the jsh package and form part of the public interface of the jsh package.
