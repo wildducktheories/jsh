@@ -181,7 +181,7 @@ Outputs a list of the resolved packages in the installation.
 
 jsh installation resolved-packages
 ---------------------------------------
-Outputs a list of the absolute path name of the installation's resolved packages directory.
+Outputs the absolute path name of the installation's resolved packages directory.
 
 jsh module filename {package} {module}...
 -----------------------------------------
