@@ -21,11 +21,16 @@ _installation()
                 jsh invoke "$@"
         }
 
+	_resolved-packages()
+	{
+		echo ${_jsh_resolved_packages}
+	}
+
         _list()
         {
                 _resolved-packages()
                 {
-                        (cd ${_jsh_installation}/var/jsh/resolved-packages; find . -maxdepth 2 -type l) | sed "s|^./||"
+                        (cd $(_installation resolved-packages); find . -maxdepth 2 -type l) | sed "s|^./||"
                 }
 
                 jsh invoke "$@"
