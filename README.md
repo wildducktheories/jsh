@@ -235,6 +235,32 @@ JSH_DEBUG
 ---------
 If this variable is not empty, the arguments to 'jsh debug' will be logged to stderr
 
+ROADMAP
+=======
+The roadmap for 'jsh' is being maintained as a public [Trello Board](https://trello.com/b/q3FVkmyX/jsh). If you would like to participate in the development of 'jsh' send an email to <a href="mailto:contact@wildducktheories.com">contact@wildducktheories.com</a>.
+
+BUGS AND ISSUES
+===============
+Issue management for 'jsh' will be done using the [github issue tracker](https://github.com/wildducktheories/jsh/issues).
+
+LICENSE
+=======
+'jsh' is licensed under the terms of the "GNU LESSER GENERAL PUBLIC LICENSE, VERSION 3". See the file, COPYING, for details of that license.
+
+CONTRIBUTING
+============
+Contributions to the development of 'jsh' are welcomed. The following areas could use assistance:
+
+* fleshing out features of the core 'jsh' package per the ROADMAP
+* developing unit tests for the core 'jsh' package
+* fixing known issues with the core 'jsh' package
+* writing module documentation for the core 'jsh' package
+* writing 'jsh' packages that provide integration with 3rd party tools and libraries
+
+COPYRIGHT
+=========
+(C) Jon Seymour 2014
+
 REVISIONS
 =========
 14 Feb 2014
