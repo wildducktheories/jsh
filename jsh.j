@@ -43,11 +43,11 @@ _jsh()
 		fi
 
 		# push the sub-package onto the module stack
-		_jsh_module_stack=${_jsh_module_stack}${_jsh_module_stack:+/}${module}
 
 		# check that the file exists
 		if test -f "$module_file" 
 		then
+			_jsh_module_stack=${_jsh_module_stack}${_jsh_module_stack:+/}${module}
 			# load the file
 			. "$module_file" || _die "A problem was encounted while loading '$module_file'"
 		fi
