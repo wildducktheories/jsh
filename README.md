@@ -175,6 +175,14 @@ jsh installation init {bindir}
 -------------------------
 Invokes 'jsh installation set bin {binddir}' and 'jsh installation link bin'. 
 
+jsh installation list resolved-packages
+---------------------------------------
+Outputs a list of the resolved packages in the installation.
+
+jsh installation resolved-packages
+---------------------------------------
+Outputs a list of the absolute path name of the installation's resolved packages directory.
+
 jsh module filename {package} {module}...
 -----------------------------------------
 Outputs the name of the module file that contains the implementation of the specified module.
@@ -221,6 +229,9 @@ REVISIONS
 
 * fix some issues with the module stack
 * add support 'jsh debug'
+* change license from GPLv3 to LGPLv3
+* rename 'jsh runtime' to 'jsh installation'
+* add support 'jsh installation resolved-packages'
 
 13 Feb 2014
 
