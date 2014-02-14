@@ -26,7 +26,7 @@ export JSH_RUNTIME
 export JSH_RESOLVED_PACKAGES=${JSH_RUNTIME}/mnt/jsh/resolved-packages
 export JSH_JSH_PACKAGE_DIR=${JSH_RESOLVED_PACKAGES}/jsh
 export JSH_JSH_MODULE_FILE=${JSH_JSH_PACKAGE_DIR}/jsh.j
-export JSH_MODULE_STACK=${JSH_PACKAGE}
+export JSH_MODULE_STACK=
 test -f "${JSH_JSH_MODULE_FILE}" &&
 . "$JSH_JSH_MODULE_FILE" || {
    cat >&2 <<EOF
