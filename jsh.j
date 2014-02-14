@@ -53,7 +53,7 @@ _jsh()
 		fi
 
 		# assert that the module function exists
-		test "$(type -t "_${module}")" = "function" || _die "'$_jsh_module_stack' does not correspond to an active jsh module"
+		test "$(type -t "_${module}")" = "function" || _die "'$_jsh_module_stack' does not address a valid jsh module"
 
 		# call the module
 		_${module} "$@"
