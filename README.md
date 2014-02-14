@@ -18,23 +18,23 @@ OPERATION
 From the perspective of a jsh user, the functionality of each activated package is represented by a command on the path named after the package. The functionality provided by a package can itself
 be subdivided into modules each of which is addressed by adding a command argument which names the module. The functionality provided by a module can be further subdivided into submodules (or sub packages) each of which is addressed by appending yet additional command arguments which name the sub-module or sub-package. 
 
-So, for example, to invoke a command that reports the location of the current jsh runtime tree, a user might type:
+So, for example, to invoke a command that reports the location of the current jsh installation tree, a user might type:
 
-    jsh runtime top
+    jsh installation top
 
-'jsh' is a command that addresses a package called 'jsh'; 'runtime' is a command that addresses a module, called 'runtime' inside the 'jsh' package; 'top' is a command that addresses a sub-module called 'top'.
+'jsh' is a command that addresses a package called 'jsh'; 'installation' is a command that addresses a module, called 'installation' inside the 'jsh' package; 'top' is a command that addresses a sub-module called 'top'.
 
-The jsh runtime will resolve each command in turn, ultimately loading and executing a function called '\_top' nested within a function called '\_runtime' found in a module file called 'runtime.j' found in a package directory called 'jsh'.
+The jsh installation will resolve each command in turn, ultimately loading and executing a function called '\_top' nested within a function called '\_installation' found in a module file called 'installation.j' found in a package directory called 'jsh'.
 
-RUNTIME TREE
-============
-jsh operates with the assumption of the existence of runtime tree. The function of the runtime tree is to provide a uniform namespace to organise the various 
+INSTALLATION TREE
+=================
+jsh operates with the assumption of the existence of installation tree. The function of the installation tree is to provide a uniform namespace to organise the various 
 storage and configuration needs of individual jsh packages. jsh recognises three kinds of storage requirement: package storage, local configuration storage and local object storage. 
 
 Package storage refers to the storage of package artifacts themselves and is typically managed with git. Configuration storage is local storage used to store configuration used by jsh packages 
-and is expected to vary on a per runtime basis. Local object storage is storage used for arbitrary purposes.
+and is expected to vary on a per installation basis. Local object storage is storage used for arbitrary purposes.
 
-The jsh runtime tree has the following structure:
+The jsh installation tree has the following structure:
 
 * bin/{package} - a link to ../mnt/jsh/resolved-packages/jsh/j.sh which will invoke the top level module of {package}
 * etc/{package} - a directory (or link to a directory) for the local configuration associated with {package}
@@ -53,7 +53,7 @@ DISTRIBUTION
 ==========
 A distribution is a collection of packages.
 
-A runtime tree will typically contain several distributions some of which may contain packages with identical names. In this case, the package implementation that occurs in the distribution whose name is first in the lexical order of all distributions found in mnt/jsh/dist is the one that wins.
+A installation tree will typically contain several distributions some of which may contain packages with identical names. In this case, the package implementation that occurs in the distribution whose name is first in the lexical order of all distributions found in mnt/jsh/dist is the one that wins.
 
 Distributions are managed by a manager who is responsible for determining the composition and versions of each package in the distrbution.
 
@@ -74,7 +74,7 @@ Packages may exist in one of 4 states:
 
 * available - the package exists in a remote git repository, but the submodule containing the package has not been initialised and updated
 * cached - the submodule containing the package is initialised and updated but not otherwise activated
-* active - the submodule containing the package is initialised and updated, a link representing the package has been added to the runtime tree's bin directory and link to the package
+* active - the submodule containing the package is initialised and updated, a link representing the package has been added to the installation tree's bin directory and link to the package
 directory from the mnt/jsh/resolved-packages has been established
 * broken - some aspect of the jsh package management invariants are broken
 
@@ -125,20 +125,20 @@ CONVENTIONS
 BOOTSTRAP
 =========
 
-The following commands will install the jsh runtime tree into ~/.jsh and then create links 
+The following commands will install the jsh installation tree into ~/.jsh and then create links 
 for the 'jsh' and 'scratch' packages in ~/bin. 
 
     mkdir -p ~/bin &&
     git clone https://github.com/wildducktheories/jsh-runtime.git ~/.jsh && 
     cd ~/.jsh && 
     git submodule update --init --recursive &&
-    mnt/jsh/resolved-packages/jsh/bin/j.sh jsh runtime init ~/bin
+    mnt/jsh/resolved-packages/jsh/bin/j.sh jsh installation init ~/bin
 
 If ~/bin is in your PATH, then:
 
-    jsh runtime top
+    jsh installation top
 
-should display the location that you cloned the jsh runtime tree into.
+should display the location that you cloned the jsh installation tree into.
 
 The following will create a new 'foobar' module in the 'scratch' package.
 
@@ -152,28 +152,28 @@ SUPPORTED COMMANDS
 ==================
 The following is a list of commands that jsh supports out of the box. The list will be extended over time to provide more comprehensive management of packages.
 
-jsh runtime top
+jsh installation top
 ---------------
-Output the top of the jsh runtime directory.
+Output the top of the jsh installation directory.
 
-jsh runtime get bin
+jsh installation get bin
 -------------------
-Output the location of the runtime bin directory.
+Output the location of the installation bin directory.
 
-jsh runtime set bin {bindir}
+jsh installation set bin {bindir}
 -------------------------
-Link the runtime bin directory to the specified directory. {bindir} should be a directory, such as /usr/local/bin, which is in the PATH.
+Link the installation bin directory to the specified directory. {bindir} should be a directory, such as /usr/local/bin, which is in the PATH.
 
-If {bindir} is the same as 'jsh runtime top', then links are created in the {bindir} directory itself, rather than in some other directory. In this case, the caller should ensure 
+If {bindir} is the same as 'jsh installation top', then links are created in the {bindir} directory itself, rather than in some other directory. In this case, the caller should ensure 
 that {bindir} is placed in the PATH.
 
-jsh runtime link bin
+jsh installation link bin
 --------------------
-Create a link from the runtime bin directory to mnt/jsh/resolved-packages/jsh/bin/j.sh for each package in mnt/jsh/resolved-packages.
+Create a link from the installation bin directory to mnt/jsh/resolved-packages/jsh/bin/j.sh for each package in mnt/jsh/resolved-packages.
 
-jsh runtime init {bindir}
+jsh installation init {bindir}
 -------------------------
-Invokes 'jsh runtime set bin {binddir}' and 'jsh runtime link bin'. 
+Invokes 'jsh installation set bin {binddir}' and 'jsh installation link bin'. 
 
 jsh module filename {package} {module}...
 -----------------------------------------
@@ -201,7 +201,7 @@ If JSH_DEBUG is non empty, output the remaining arguments to stderr.
 
 META MODULE
 ===========
-Every package (and module) can define a submodule, called meta which can answer questions asked of the module by the jsh runtime. 
+Every package (and module) can define a submodule, called meta which can answer questions asked of the module by the jsh installation. 
 This section will document the expected behaviour of each submodule of a module's meta module.
 
 ENVIRONMENT
@@ -225,7 +225,7 @@ REVISIONS
 13 Feb 2014
 
 * Add GPLv3 license.
-* Add initial runtime support.
+* Add initial installation support.
 * Renamed 'repository' to 'distribution' to better reflect intent.
 * Enable linking of package commands to existing bin directory
 
