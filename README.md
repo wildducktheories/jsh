@@ -175,17 +175,21 @@ jsh runtime init {bindir}
 -------------------------
 Invokes 'jsh runtime set bin {binddir}' and 'jsh runtime link bin'. 
 
-jsh module filename {package} {module...}
+jsh module filename {package} {module}...
 -----------------------------------------
 Outputs the name of the module file that contains the implementation of the specified module.
 
-jsh module edit {package} {module...}
+jsh module edit {package} {module}...
 -------------------------------------
 Invokes the program referred to by $EDITOR on the module file that implements the specified module.
 
-jsh module create {package} {module...}
--------------------------------------
+jsh module create {package} {module}...
+---------------------------------------
 Create a new module file for the specified module path, then invokes the $EDITOR on that module.
+
+jsh debug {message arg}...
+--------------------------
+If JSH_DEBUG is non empty, output the remaining arguments to stderr.
 
 REVISIONS
 =========
