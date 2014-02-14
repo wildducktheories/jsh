@@ -207,6 +207,11 @@ jsh debug {message-arg}...
 --------------------------
 If JSH_DEBUG is non empty, output the remaining arguments to stderr.
 
+jsh with {package} {module}... {args}... -- {module}... {args}...
+-----------------------------------------------------------------
+Invokes a package which establshes some context, restores the module stack, then invokes the module specified by the remaining arguments.
+The '--' parameter is used to delimit the context establishing command from the encapsulated.
+
 META MODULE
 ===========
 Every package (and module) can define a submodule, called meta which can answer questions asked of the module by the jsh installation. 
@@ -232,6 +237,7 @@ REVISIONS
 * change license from GPLv3 to LGPLv3
 * rename 'jsh runtime' to 'jsh installation'
 * add support 'jsh installation resolved-packages'
+* add 'jsh with' support
 
 13 Feb 2014
 

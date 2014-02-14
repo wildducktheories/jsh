@@ -18,6 +18,16 @@ _jsh()
 	{
 		_debug "_invoke|$*|${_jsh_module_stack}"
 
+		# handle -- as first argument
+		local first_arg=$1
+		shift 1
+		if test "$first_arg" = "--"
+		then
+			set -- $_jsh_double_dash_handler "$@"
+		else
+			set -- $first_arg "$@"
+		fi
+
 		module=$1
 		shift 1
 		test -n "${module}" || _die "usage: jsh invoke {module} {module...} {args...}"
@@ -50,6 +60,13 @@ _jsh()
 
 		_jsh_module_stack=${save}
 	}		
+
+	_end-with()
+	{
+		_jsh_module_stack=${_jsh_save_module_stack}
+		_jsh_double_dash_handler=
+		"$@"
+	}
 
 	jsh()
 	{
