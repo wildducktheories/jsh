@@ -209,12 +209,15 @@ If JSH_DEBUG is non empty, output the remaining arguments to stderr.
 
 jsh with ... 
 ------------
-	jsh with {context-package} {context-module}... {context-args}... -- {encapsulated-module}... {encapsulate-args}...
+	jsh with {context-package} {context-module}... {context-args}... [--] {encapsulated-module}... {encapsulate-args}...
 
 This command is used to run encapsulated module invocation inside of a context setup by a context module invocation.
 
-The first command (upto and including the first --) performs some kind of context initialization and then calls 'jsh invoke' on the remaining arguments (the encapsulated command). The comtext
+The first command (upto and including the first --) performs some kind of context initialization and then calls 'jsh invoke' on the remaining arguments (the encapsulated command). The context
 is then torn down.
+
+Note use of the -- argument is optional. If used, 'jsh' will ensure that the current module's module stack is saved prior to the execution of the context command and restored
+prior to the execution of the encapsulated command. This helps ensure that the correct encapsulated module will be called when the encapsulated command executes.
 
 META MODULE
 ===========
