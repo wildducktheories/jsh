@@ -129,7 +129,7 @@ The following commands will install the jsh installation tree into ~/.jsh and th
 for the 'jsh' and 'scratch' packages in ~/bin. 
 
     mkdir -p ~/bin &&
-    git clone https://github.com/wildducktheories/jsh-runtime.git ~/.jsh && 
+    git clone https://github.com/wildducktheories/jsh-installation.git ~/.jsh && 
     cd ~/.jsh && 
     git submodule update --init --recursive &&
     mnt/jsh/resolved-packages/jsh/bin/j.sh jsh installation init ~/bin
