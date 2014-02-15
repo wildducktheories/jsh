@@ -201,11 +201,27 @@ Output the remaining arguments to stderr, then exit the current shell with a non
 
 jsh invoke {module}... {arg}...
 -------------------------------
-Invoke the specified submodule of the current package/submodule.
+Loads and invokes the specified submodule of the current package/submodule.
+
+The following files are checked, in order:
+
+* $(jsh module-dir-stack)/{module}/{module}.j
+* $(jsh module-dir-stack)/{module}.j
+
+The first such file that is found is loaded. If the load was succesful /{module} is appended to the module stack.
+
+The existence of a function called _{module} is checked. If the function exists, it is called, otherwise 'jsh die' is called.
 
 jsh debug {message-arg}...
 --------------------------
 If JSH_DEBUG is non empty, output the remaining arguments to stderr.
+
+jsh module-dir-stack
+---------------------
+Output the the current module-dir-stack. 
+
+The module dir stack is modified by the operation of 'jsh invoke' and 'jsh with'. The module dir stack is used to determine where 'jsh invoke' begins the search for modules whose 
+name matches the first argument.
 
 jsh with ... 
 ------------
@@ -216,7 +232,7 @@ This command is used to run encapsulated module invocation inside of a context s
 The first command (upto and including the first --) performs some kind of context initialization and then calls 'jsh invoke' on the remaining arguments (the encapsulated command). The context
 is then torn down.
 
-Note use of the -- argument is optional. If used, 'jsh' will ensure that the current module's module stack is saved prior to the execution of the context command and restored
+Note use of the -- argument is optional. If used, 'jsh' will ensure that the current module's module dir stack is saved prior to the execution of the context command and restored
 prior to the execution of the encapsulated command. This helps ensure that the correct encapsulated module will be called when the encapsulated command executes.
 
 META MODULE

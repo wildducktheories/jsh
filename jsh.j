@@ -47,9 +47,9 @@ _jsh()
 		# check that the file exists
 		if test -f "$module_file" 
 		then
-			_jsh_module_stack=${_jsh_module_stack}${_jsh_module_stack:+/}${module}
 			# load the file
 			. "$module_file" || _die "A problem was encounted while loading '$module_file'"
+			_jsh_module_stack=${_jsh_module_stack}${_jsh_module_stack:+/}${module}
 		fi
 
 		# assert that the module function exists
@@ -78,10 +78,15 @@ _jsh()
 		_invoke "$@"
 	}
 
+	_module-dir-stack()
+	{
+		echo "$_jsh_module_stack"
+	}
+
 	jsh()
 	{
 		case "$1" in
-		     invoke|die|debug|with)
+		     invoke|die|debug|with|module-stack)
 			_jsh "$@"
 		     ;;
 		     *)
