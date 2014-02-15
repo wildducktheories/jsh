@@ -7,18 +7,18 @@ DESCRIPTION
 The goal of this project is to provide a package management system for managing bash modules and so allow the development and sharing of relatively large collections of bash functions 
 that project teams might find useful for managing their own command line scripting needs.
 
-jsh assists with the distribution, discovery, local management and invocation of bash functions organised into packages of modules.
+'jsh' assists with the distribution, discovery, local management and invocation of bash functions organised into packages of modules.
 
 A package is the smallest unit of distribution and deployment. A package consists of a top-level module, zero or more sub-modules and zero or more sub-packages. 
 Each module is implemented by a bash function which is located within top-level module of a package or in a .j module file within a package. Following brew, but with some differences, 
-jsh uses git to manage the distribution of packages.
+'jsh' uses git to manage the distribution of packages.
 
 OPERATION
 =========
-From the perspective of a jsh user, the functionality of each activated package is represented by a command on the path named after the package. The functionality provided by a package can itself
+From the perspective of a 'jsh' user, the functionality of each activated package is represented by a command on the path named after the package. The functionality provided by a package can itself
 be subdivided into modules each of which is addressed by adding a command argument which names the module. The functionality provided by a module can be further subdivided into submodules (or sub packages) each of which is addressed by appending yet additional command arguments which name the sub-module or sub-package. 
 
-So, for example, to invoke a command that reports the location of the current jsh installation tree, a user might type:
+So, for example, to invoke a command that reports the location of the current 'jsh' installation tree, a user might type:
 
     jsh installation top
 
@@ -28,13 +28,13 @@ The jsh installation will resolve each command in turn, ultimately loading and e
 
 INSTALLATION TREE
 =================
-jsh operates with the assumption of the existence of installation tree. The function of the installation tree is to provide a uniform namespace to organise the various 
-storage and configuration needs of individual jsh packages. jsh recognises three kinds of storage requirement: package storage, local configuration storage and local object storage. 
+'jsh' operates with the assumption of the existence of installation tree. The function of the installation tree is to provide a uniform namespace to organise the various 
+storage and configuration needs of individual 'jsh' packages. 'jsh' recognises three kinds of storage requirement: package storage, local configuration storage and local object storage. 
 
-Package storage refers to the storage of package artifacts themselves and is typically managed with git. Configuration storage is local storage used to store configuration used by jsh packages 
+Package storage refers to the storage of package artifacts themselves and is typically managed with git. Configuration storage is local storage used to store configuration used by 'jsh' packages 
 and is expected to vary on a per installation basis. Local object storage is storage used for arbitrary purposes.
 
-The jsh installation tree has the following structure:
+The 'jsh' installation tree has the following structure:
 
 * bin/{package} - a link to ../mnt/jsh/resolved-packages/jsh/j.sh which will invoke the top level module of {package}
 * etc/{package} - a directory (or link to a directory) for the local configuration associated with {package}
@@ -42,9 +42,9 @@ The jsh installation tree has the following structure:
 * var/{package} - the default location of local object storage associated with {package}
 * mnt/jsh/dist/{nnnn}-{dist}/{package} - package storage for the contents of a package found in one distribution
 * mnt/jsh/resolved-packages/{package} - contains a link to an actual package implementation in mnt/jsh/dist/{nnnn}-{dist}/{package}
-* mnt/jsh/resolved-packages/{package}/{package}.j - a bash source file containing a function called _{package} containing the top-level module of the package
-* mnt/jsh/resolved-packages/{package}/{module}.j - a bash source file containing a function called _{module} containing another module in a package
-* mnt/jsh/resolved-packages/{package}/{subpackage}/{subpackage}.j - a bash source file containing a function called _{subpackage} containing the top-level module of a sub-package
+* mnt/jsh/resolved-packages/{package}/{package}.j - a bash source file containing a function called \_{package} containing the top-level module of the package
+* mnt/jsh/resolved-packages/{package}/{module}.j - a bash source file containing a function called \_{module} containing another module in a package
+* mnt/jsh/resolved-packages/{package}/{subpackage}/{subpackage}.j - a bash source file containing a function called \_{subpackage} containing the top-level module of a sub-package
 * mnt/jsh/resolved-packages/{package}/doc/md/{module}.md - the markdown markup for a module document
 * mnt/jsh/resolved-packages/{package}/doc/html/{module}.html - the (generated) HTML markup for a module document
 * mnt/jsh/doc/html/{package} - a link to the generated HTML documentation for a package
@@ -61,7 +61,7 @@ A distribution is typically implemented as a git superproject with each package 
 
 PACKAGE
 =======
-A jsh package, {p}, is directory consisting of:
+A 'jsh' package, {p}, is directory consisting of:
 
 * a single top-level module file {p}.j containing the definition of the package's top-level module
 * one or more sub-module files, {m}.j, containing the definition of the package's sub-modules
@@ -76,15 +76,18 @@ Packages may exist in one of 4 states:
 * cached - the submodule containing the package is initialised and updated but not otherwise activated
 * active - the submodule containing the package is initialised and updated, a link representing the package has been added to the installation tree's bin directory and link to the package
 directory from the mnt/jsh/resolved-packages has been established
-* broken - some aspect of the jsh package management invariants are broken
+* broken - some aspect of the 'jsh' package management invariants are broken
 
 MODULE
 ======
-A jsh module, {m}, is a function called \_{m}. The source for a module is either nested within the source of a parent module or within .j file within some package. The body of module
-may declare other modules or functions. Modules that declare other modules in their body usually pass their arguments to jsh invoke in order to allow for recursive dispatch.
+A 'jsh' module, {m}, is a function called \_{m}. The source for a module is either nested within the source of a parent module or within .j file within some package. The body of module
+may declare other modules or functions. Modules that declare other modules in their body usually pass their arguments to 'jsh' invoke in order to allow for recursive dispatch.
 
 All packages MUST have at least one module, called the top-level module, which has the same name as the package. The source for this module MUST be located in a consistently named module file 
 in the top directory of the package. The top-level module is special because it is the first module in a package that is invoked by the command that represents the package.
+
+Every package (and module), which has its own module file, can define a submodule, called meta which can answer questions asked of the module by the 'jsh' installation. 
+This section will document the expected behaviour of each submodule of a module's meta module.
 
 DOCUMENTATION
 =============
@@ -93,39 +96,48 @@ Documentation of packages is managed with a slight variant markdown.
 TERMINOLOGY
 ===========
 
-* resolved-packages-directory
-	A directory containing links to packages. Ambiguous package selections have been resolved.
+* resolved-packages directory
+	A directory containing links to packages. Ambiguous package selections have been resolved. This is typically $(jsh installation top)/mnt/jsh/resolved-packages
 
 * distribution
-	A directory containing zero or more packages. 
+	A directory containing zero or more packages. Distribution directories are typically located in $(jsh installation top)/mnt/jsh/dist/{nnnn}-{dist} where nnnn is a 4 
+	digit-numeric prefix and dist is the name of the distribution.
 
 * package
-	A directory within a repository containing one or more modules. If the package is called {p} then there MUST be top-level module called {p}.
+	A directory within a distribution containing one or more modules. If the package is called {p} then there MUST be top-level module called {p}.
 
 * sub-package
-	A directory within a package directory which also satisfies the defintion of a package. That is, if the directory is called {d} and {d}/{d}.j also
-	exists, then {d} is a sub package.
+	A directory, {s}, within a package (or sub-package) directory which which contains a top-level module called {s} in a module-file called {s}.j
 
 * module
 	A bash function. If the module is called {m}, then the implementing function is called _{m}() and is contained within a file called {m}.j or {m}/{m}.j
 
 * module file
-	A .j file, located in a package directory, that contains the definition of a module.
+	A .j file, located in a package directory, that contains the definition of a single module (and that module's nested modules).
 
 * top-level module
-	A module with the same name as the containing package. Each package should have exactly one top-level module. 
+	A module with the same name as the containing package. Each package should have exactly one top-level module.
 
 * sub-module
-	Any module in a package directory whose name does not match the name of the containing package.
+	Any module with its own module file which is loaded in a package directory and whose name does not match the name of the containing package (or sub-package).
+
+* nested module
+	A module whose definition is nested within the defintion of a parent module. Nested modules do not have their own module file and their invocation does
+	not result in a new part being pushed into the module directory stack.
+
+* module directory stack
+  	A path to a directory within the resolved-packages directory at which the search will begin for a new module if 'jsh invoke' is called. The directory does not have
+	to exist.
 
 CONVENTIONS
 ===========
-* packages can reserve part of the global environent for themselves using a prefix.
+* packages can reserve part of the global environent for themselves using a prefix. For a package 'foobar', the prefix for variables in the public interface of the package should be 'FOOBAR\_'. All other
+variables should use the prefix '\_foobar\_'.
 
 BOOTSTRAP
 =========
 
-The following commands will install the jsh installation tree into ~/.jsh and then create links 
+The following commands will install the 'jsh' installation tree into ~/.jsh and then create links 
 for the 'jsh' and 'scratch' packages in ~/bin. 
 
     mkdir -p ~/bin &&
@@ -150,11 +162,11 @@ To invoke the module, run:
 
 SUPPORTED COMMANDS
 ==================
-The following is a list of commands that jsh supports out of the box. The list will be extended over time to provide more comprehensive management of packages.
+The following is a list of commands that 'jsh' supports out of the box. The list will be extended over time to provide more comprehensive management of packages.
 
 jsh installation top
 ---------------
-Output the top of the jsh installation directory.
+Output the top of the 'jsh' installation directory.
 
 jsh installation get bin
 -------------------
@@ -235,17 +247,12 @@ is then torn down.
 Note use of the -- argument is optional. If used, 'jsh' will ensure that the current module's module dir stack is saved prior to the execution of the context command and restored
 prior to the execution of the encapsulated command. This helps ensure that the correct encapsulated module will be called when the encapsulated command executes.
 
-META MODULE
-===========
-Every package (and module) can define a submodule, called meta which can answer questions asked of the module by the jsh installation. 
-This section will document the expected behaviour of each submodule of a module's meta module.
-
 ENVIRONMENT
 ===========
-All environment variables prefixed with JSH_ are reserved for use by modules in the jsh package and form part of the public interface of the jsh package.
+All environment variables prefixed with JSH_ are reserved for use by modules in the 'jsh' package and form part of the public interface of the jsh package.
 
-All environment variables prefixed with _jsh are reserved for use by the implementation of jsh package and are not part of the public interface. Any use of these variables by
-modules outside the jsh package is not supported.
+All environment variables prefixed with _jsh are reserved for use by the implementation of 'jsh' package and are not part of the public interface. Any use of these variables by
+modules outside the 'jsh' package is not supported.
 
 JSH_DEBUG
 ---------
@@ -279,8 +286,15 @@ COPYRIGHT
 
 REVISIONS
 =========
-14 Feb 2014
+15 Feb 2014
+-----------
+* added LICENSE, CONTRIBUTING, COPYRIGHT, BUGS AND ISSUES, ROADMAP sections to README.md
+* added support for 'jsh module-dir-stack'
+* cleaned up implementation of module dir stack accounting - module only pushed for each module file loaded
+* consistent use of 'jsh' where 'jsh' is being used as a noun.
 
+14 Feb 2014
+-----------
 * fix some issues with the module stack
 * add support 'jsh debug'
 * change license from GPLv3 to LGPLv3
@@ -289,12 +303,12 @@ REVISIONS
 * add 'jsh with' support
 
 13 Feb 2014
-
+-----------
 * Add GPLv3 license.
 * Add initial installation support.
 * Renamed 'repository' to 'distribution' to better reflect intent.
 * Enable linking of package commands to existing bin directory
 
 10 Feb 2014
-
+-----------
 * Initial version
