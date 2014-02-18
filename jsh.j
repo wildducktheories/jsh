@@ -86,7 +86,7 @@ _jsh()
 	jsh()
 	{
 		case "$1" in
-		     invoke|die|debug|with|module-stack)
+		     invoke|die|debug|with|module-dir-stack)
 			_jsh "$@"
 		     ;;
 		     *)
