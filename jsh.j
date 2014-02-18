@@ -57,8 +57,9 @@ _jsh()
 
 		# call the module
 		_${module} "$@"
-
+		local rc=$?
 		_jsh_module_stack=${save}
+		return $rc
 	}		
 
 	_with()
